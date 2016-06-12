@@ -6,30 +6,24 @@ public class WorldObject
   private static int idGenerator=0;
   private Coord<Double> pos;
   private Coord<Double> vel;
-  private int id;
+  private final int id=assignId();
 
   public WorldObject()
   {
     pos=new Coord<Double>(0.0,0.0,0.0);
     vel=new Coord<Double>(0.0,0.0,0.0);
-    
-    id=assignId(); 
   }
 
   public WorldObject(double x_,double y_,double z_)
   {
     pos=new Coord<Double>(x_,y_,z_);
     vel=new Coord<Double>(0.0,0.0,0.0);
-    
-    id=assignId(); 
   }
 
   public WorldObject(Coord a)
   {
     pos=new Coord<Double>(a);
     vel=new Coord<Double>(0.0,0.0,0.0);
-
-    id=assignId(); 
   }
 
   public int getId()
@@ -100,7 +94,7 @@ public class WorldObject
 
   public void render(GraphicsManager g)
   {
-    //g.drawText(pos.getX()+"\t"+pos.getY());
+    g.drawText(id+"\t"+pos.getX()+"\t"+pos.getY());
     g.addToBoard(pos.getX().intValue(),pos.getY().intValue(),'X');
   }
 
