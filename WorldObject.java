@@ -4,30 +4,30 @@ import java.util.ArrayList;
 public class WorldObject
 {
   private static int idGenerator=0;
-  private Coord<Integer> pos;
-  private Coord<Integer> vel;
+  private Coord<Double> pos;
+  private Coord<Double> vel;
   private int id;
 
   public WorldObject()
   {
-    pos=new Coord<Integer>(0,0,0);
-    vel=new Coord<Integer>(0,0,0);
+    pos=new Coord<Double>(0.0,0.0,0.0);
+    vel=new Coord<Double>(0.0,0.0,0.0);
     
     id=assignId(); 
   }
 
-  public WorldObject(int x_,int y_,int z_)
+  public WorldObject(double x_,double y_,double z_)
   {
-    pos=new Coord<Integer>(x_,y_,z_);
-    vel=new Coord<Integer>(0,0,0);
+    pos=new Coord<Double>(x_,y_,z_);
+    vel=new Coord<Double>(0.0,0.0,0.0);
     
     id=assignId(); 
   }
 
   public WorldObject(Coord a)
   {
-    pos=new Coord<Integer>(a);
-    vel=new Coord<Integer>(0,0,0);
+    pos=new Coord<Double>(a);
+    vel=new Coord<Double>(0.0,0.0,0.0);
 
     id=assignId(); 
   }
@@ -37,88 +37,54 @@ public class WorldObject
     return id;
   }
 
-  public Coord<Integer> getPos()
+  public Coord<Double> getPos()
   {
-    return new Coord<Integer>(pos);
+    return new Coord<Double>(pos);
   }
 
-  public void setPos(Coord<Integer> pos_)
+  public void setPos(Coord<Double> pos_)
   {
-    pos=new Coord<Integer>(pos_);
+    pos=new Coord<Double>(pos_);
   }
 
-  public Coord<Integer> getVel()
+  public Coord<Double> getVel()
   {
-    return new Coord<Integer>(vel);
+    return new Coord<Double>(vel);
   }
 
-  public void setVel(Coord<Integer> vel_)
+  public void setVel(Coord<Double> vel_)
   {
-    vel=new Coord<Integer>(vel_);
+    vel=new Coord<Double>(vel_);
   }
 
   public void logic(World w)
   {
-    if(id==0)//only the first object can make more
+    for(int i=0;i<w.listSize();i++)
     {
-      WorldObject n=new WorldObject().randomize();
-      n.setPos(pos);
-      w.addObject(n);
-    }
+      if(id != w.listGet(i).getId())
+      {
+        Coord<Double> dpos=Coord.addD(pos,Coord.mul(w.listGet(i).getPos(),-1));
+        //dpos = this.pos - other.pos
 
+        vel=Coord.addD(vel,Coord.mul(dpos,-Math.pow(Coord.dist(pos,w.listGet(i).getPos()),-2)));
+      }
+    }
 
     pos.setX(pos.getX()+vel.getX());
     pos.setY(pos.getY()+vel.getY());
     pos.setZ(pos.getZ()+vel.getZ());
 
-    while(pos.getX()>=100)
-    {
-      pos.setX(pos.getX()-100);
-    }
-
-    while(pos.getY()>=100)
-    {
-      pos.setY(pos.getY()-100);
-    }
-
-    while(pos.getZ()>=100)
-    {
-      pos.setZ(pos.getZ()-100);
-    }
-
-    while(pos.getX()<0)
-    {
-      pos.setX(pos.getX()+100);
-    }
-
-    while(pos.getY()<0)
-    {
-      pos.setY(pos.getY()+100);
-    }
-
-    while(pos.getZ()<0)
-    {
-      pos.setZ(pos.getZ()+100);
-    }
-
-    for(int i=0;i<w.listSize();i++)
-    {
-      if(this.collides(w.listGet(i)))
-      {
-        this.stopMovement();
-        w.listGet(i).stopMovement();
-      }
-    }
+    vel=Coord.mul(vel,0.999);
   }
 
   public boolean collides(WorldObject o)
   {
-    if(o.getId()==id || id==0)
+    if(o.getId()==id)
     {
       return false;
     }
 
-    Coord<Integer> otherPos=o.getPos();
+    Coord<Double> otherPos=o.getPos();
     if(pos.getX()==otherPos.getX() && pos.getY()==otherPos.getY())
     {
       return true;
@@ -129,39 +95,37 @@ public class WorldObject
 
   public void stopMovement()
   {
-    vel=new Coord<Integer>(0,0,0);
+    vel=new Coord<Double>(0.0,0.0,0.0);
   }
 
   public void render(GraphicsManager g)
   {
-    g.addToBoard(pos.getX(),pos.getY(),'X');
+    //g.drawText(pos.getX()+"\t"+pos.getY());
+    g.addToBoard(pos.getX().intValue(),pos.getY().intValue(),'X');
   }
 
   public WorldObject randomize()
   //randomizes pos and vel, then return this object
   {
-    pos=new Coord<Integer>(randomInt(0,100),randomInt(0,100),randomInt(0,100));
-    vel=new Coord<Integer>(randomInt(-3,3), randomInt(-3,3), randomInt(-3,3));
-    //vel=new Coord<Integer>(randomInt(-5,5), randomInt(-5,5), randomInt(-5,5));
+    //pos=new Coord<Double>(randomDouble(0,100),randomDouble(0,100),randomDouble(0,100));
+    pos=new Coord<Double>(50.0,50.0,50.0);
+    vel=new Coord<Double>(randomDouble(-5,5), randomDouble(-5,5), randomDouble(-5,5));
     
     return this;
   }
 
-  private int randomInt(int min,int max)
+  private double randomDouble(double min,double max)
   {
     Random rand=new Random();
 
-    int retval=rand.nextInt();
-    //any int
+    double retval=(max-min)*rand.nextDouble();
+    //any double
 
     if(retval<0)
     {
       retval=-retval;
     }
-    //positive int
-
-    retval%=(max-min);
-    //int from 0 to max-min
+    //positive double
 
     return retval+min;
   }

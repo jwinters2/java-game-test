@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.lang.Math;
 
 public class Coord<T>
 {
@@ -52,5 +53,33 @@ public class Coord<T>
   public void setZ(T z_)
   {
     z=z_;
+  }
+
+  public static Coord<Double> addD(Coord<Double> a,Coord<Double> b)
+  {
+    return new Coord<Double>(a.getX()+b.getX(),a.getY()+b.getY(),a.getZ()+b.getZ());
+  }
+
+  public static Coord<Integer> addI(Coord<Integer> a,Coord<Integer> b)
+  {
+    return new Coord<Integer>(a.getX()+b.getX(),a.getY()+b.getY(),a.getZ()+b.getZ());
+  }
+
+  public static Coord<Double> mul(Coord<Double> a,double m)
+  {
+    return new Coord<Double>(a.getX()*m,a.getY()*m,a.getZ()*m);
+  }
+
+  public static Coord<Integer> mul(Coord<Integer> a,int m)
+  {
+    return new Coord<Integer>(a.getX()*m,a.getY()*m,a.getZ()*m);
+  }
+
+  public static double dist(Coord<Double> a,Coord<Double> b)
+  {
+    double dx=a.getX()-b.getX();
+    double dy=a.getY()-b.getY();
+    double dz=a.getZ()-b.getZ();
+    return Math.sqrt((dx*dx)+(dy*dy)+(dz*dz));
   }
 }

@@ -15,7 +15,7 @@ public class World
     frame++;
 
     int size=objList.size();
-    //this is to prevent bugs causes by the arraylist changing size mid-loop
+    //this is to prevent bugs caused by the arraylist changing size mid-loop
 
     for(int i=0;i<size;i++)
     {
