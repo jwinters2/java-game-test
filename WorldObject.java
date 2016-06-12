@@ -4,9 +4,9 @@ import java.util.ArrayList;
 public class WorldObject
 {
   private static int idGenerator=0;
-  private Coord<Double> pos;
-  private Coord<Double> vel;
-  private final int id=assignId();
+  protected Coord<Double> pos;
+  protected Coord<Double> vel;
+  protected final int id=assignId();
 
   public WorldObject()
   {
@@ -68,7 +68,17 @@ public class WorldObject
     pos.setY(pos.getY()+vel.getY());
     pos.setZ(pos.getZ()+vel.getZ());
 
-    vel=Coord.mul(vel,0.999);
+    if(pos.getX()>100 || pos.getX()<0)
+    {
+      w.removeObject(this);
+    }
+
+    if(pos.getY()>100 || pos.getY()<0)
+    {
+      w.removeObject(this);
+    }
+
+    //vel=Coord.mul(vel,0.999);
   }
 
   public boolean collides(WorldObject o)
@@ -94,7 +104,7 @@ public class WorldObject
 
   public void render(GraphicsManager g)
   {
-    g.drawText(id+"\t"+pos.getX()+"\t"+pos.getY());
+    //g.drawText(id+"\t"+pos.getX()+"\t"+pos.getY());
     g.addToBoard(pos.getX().intValue(),pos.getY().intValue(),'X');
   }
 
@@ -108,7 +118,7 @@ public class WorldObject
     return this;
   }
 
-  private double randomDouble(double min,double max)
+  protected double randomDouble(double min,double max)
   {
     Random rand=new Random();
 

@@ -4,6 +4,13 @@ public class Main
   {
     GraphicsManager g=new GraphicsManager();
     World w=new World();
+    
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
 
     while(w.isStillRunning())
     {

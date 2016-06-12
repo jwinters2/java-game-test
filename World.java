@@ -17,7 +17,7 @@ public class World
     int size=objList.size();
     //this is to prevent bugs caused by the arraylist changing size mid-loop
 
-    for(int i=0;i<size;i++)
+    for(int i=0;(i<size && i<objList.size());i++)
     {
       objList.get(i).logic(this);
     }
@@ -48,7 +48,7 @@ public class World
 
   private void preRender(GraphicsManager g)
   {
-    g.drawText("Starting Render: Frame="+frame);
+    g.drawText("Starting Render: Frame="+frame+"\tObjectsCount="+objList.size());
   }
 
   public WorldObject listGet(int i)
@@ -59,5 +59,21 @@ public class World
   public int listSize()
   {
     return objList.size();
+  }
+
+  public void removeObject(WorldObject ob)
+  {
+    objList.remove(ob);
+  }
+
+  public void removeObject(int id)
+  {
+    for(int i=0;i<objList.size();i++)
+    {
+      if(objList.get(i).getId()==id)
+      {
+        objList.remove(i);
+      }
+    }
   }
 }
