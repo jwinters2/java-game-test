@@ -11,6 +11,16 @@ public class Main
     w.addObject(new Anchor().randomize());
     w.addObject(new Anchor().randomize());
     w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
+    w.addObject(new Anchor().randomize());
 
     while(w.isStillRunning())
     {

@@ -8,7 +8,7 @@ public class Anchor extends WorldObject
   @Override
   public WorldObject randomize()
   {
-    pos=new Coord<Double>(randomDouble(45,55),randomDouble(45,55),randomDouble(45,55));
+    pos=new Coord<Double>(randomDouble(45,55),randomDouble(55,65),randomDouble(45,55));
     vel=new Coord<Double>(0.0,0.0,0.0);
     
     return this;

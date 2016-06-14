@@ -15,12 +15,14 @@ public class World
     frame++;
 
     int size=objList.size();
-    //this is to prevent bugs caused by the arraylist changing size mid-loop
+    //this is to prevent bugs caused by the ArrayList changing size mid-loop
 
     for(int i=0;(i<size && i<objList.size());i++)
     {
       objList.get(i).logic(this);
     }
+
+    objList.trimToSize();
   }
 
   public void worldRender(GraphicsManager g)
@@ -64,6 +66,7 @@ public class World
   public void removeObject(WorldObject ob)
   {
     objList.remove(ob);
+    ob=null;
   }
 
   public void removeObject(int id)
@@ -72,7 +75,9 @@ public class World
     {
       if(objList.get(i).getId()==id)
       {
+        objList.set(i,null);
         objList.remove(i);
+        return;
       }
     }
   }
